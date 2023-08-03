@@ -1,0 +1,33 @@
+<div class="table-responsive">
+  <table class="table">
+    <thead class="thead table-dark">
+      <tr>
+        <th class="w-75">Item</th>
+        <th>Quantity</th>
+        <th>Rate</th>
+        <th>Amount</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of invoiceItems; let i = index">
+        <td><input type="text" class="form-control" name="item" placeholder="Description of Service or product..." [(ngModel)]="item.item"></td>
+        <td><input type="number" class="form-control-sm" name="quantity" [(ngModel)]="item.quantity"  (input)="calculateTotal()"></td>
+        <td><input type="number" class="form-control-sm" name="price" [(ngModel)]="item.price" (input)="calculateTotal()"></td>
+        <td>{{ item.price * item.quantity }}</td>
+        <td>
+          <button type="button" [style.width]="'35px'" [color]="'warn'" [style.height]="'30px'" [style.padding]="'6px'"  (click)="removeItem(i)" title="Delete" mat-icon-button>
+            <mat-icon class="h6">delete</mat-icon>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="5">
+          <button type="button" mat-raised-button   (click)="addRow()" color="success" > <mat-icon>add</mat-icon> Line Item</button>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>

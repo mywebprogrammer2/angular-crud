@@ -1,0 +1,23 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Poppins, "Helvetica Neue", sans-serif; }
+
+
+
+.mat-mdc-button.mat-success {
+  color: #009e74 !important
+}
+
+
+.mat-mdc-raised-button.mat-success {
+  color: white !important;
+  background-color: #009e74 !important;
+  transition: 0.2s;
+}
+
+
+
+.mat-mdc-raised-button.mat-success:hover {
+  background-color: #10806F !important;
+}

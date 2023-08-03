@@ -1,0 +1,57 @@
+<div class="container-fluid pt-3">
+  <div class="row">
+    <div class="col-md-6">
+      <h1>Invoices - List</h1>
+    </div>
+    <div class="col-md-6">
+      <div class="float-end">
+        <button *ngIf="can('invoice-create')" mat-stroked-button color="primary" [routerLink]="['/dashboard','invoices','create']"  >
+          <mat-icon>add</mat-icon>
+          Add Invoice
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Project</th>
+          <th>Amount</th>
+          <th>Remaining</th>
+          <th>Due Date</th>
+          <th>Status</th>
+          <th>Created</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let invoice of invoices;let i = index;">
+          <td>{{ i+1  }}</td>
+          <td>{{ invoice.invoice_number }}</td>
+          <td>{{ invoice?.project?.name }}</td>
+          <td>{{ invoice?.total_amount }}</td>
+          <td>{{ invoice?.remaining }}</td>
+          <td>{{ invoice?.due_date  | date:'mediumDate' }}</td>
+          <td>{{ invoice?.status | titlecase }}</td>
+          <td>{{ invoice?.created_at | date:'mediumDate' }}</td>
+          <td>
+            <button *ngIf="can('payment-view')" class="" [style.width]="'35px'" [style.height]="'30px'" [style.padding]="'6px'" [routerLink]="['/dashboard','invoices','payments',invoice.id]" title="View Payments" mat-icon-button>
+              <mat-icon class="h6">receipt</mat-icon>
+            </button>
+            <button *ngIf="can('invoice-edit')" class="" [style.width]="'35px'" [style.height]="'30px'" [style.padding]="'6px'" [routerLink]="['/dashboard','invoices', 'edit',invoice.id]" title="Edit" mat-icon-button>
+              <mat-icon class="h6">edit</mat-icon>
+            </button>
+            <button *ngIf="can('invoice-delete')" class="" [style.width]="'35px'" [color]="'warn'" [style.height]="'30px'" [style.padding]="'6px'" (click)="openDeleteConfirmationDialog(invoice.id)" title="Delete" mat-icon-button>
+              <mat-icon class="h6">delete</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

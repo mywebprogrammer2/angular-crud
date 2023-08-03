@@ -1,0 +1,46 @@
+<div class="container-fluid pt-3">
+  <div class="row">
+    <div class="col-md-6">
+      <h1>Customer - List</h1>
+    </div>
+    <div class="col-md-6">
+      <div class="float-end">
+        <button *ngIf="can('customer-create')" mat-stroked-button color="primary" [routerLink]="['/dashboard','customers','create']"  >
+          <mat-icon>add</mat-icon>
+          Add Customer
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>email</th>
+          <th>status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of customers">
+          <td>{{ user.id }}</td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.status ? 'Active' : 'De-Active' }}</td>
+          <td>
+            <button *ngIf="can('customer-edit')" class="" [style.width]="'35px'" [style.height]="'30px'" [style.padding]="'6px'" [routerLink]="['/dashboard','customers', 'edit',user.id]" title="Edit" mat-icon-button>
+              <mat-icon class="h6">edit</mat-icon>
+            </button>
+            <button *ngIf="can('customer-delete')" class="" [style.width]="'35px'" [color]="'warn'" [style.height]="'30px'" [style.padding]="'6px'" (click)="openDeleteConfirmationDialog(user.id)" title="Delete" mat-icon-button>
+              <mat-icon class="h6">delete</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

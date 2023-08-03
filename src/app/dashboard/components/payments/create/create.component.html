@@ -1,0 +1,107 @@
+<div class="container-fluid pt-3">
+  <div class="row">
+    <div class="col-md-6">
+      <h1>Payment</h1>
+    </div>
+    <div class="col-md-6">
+    </div>
+  </div>
+
+  <form (submit)="CreateForm.valid &&create()" #CreateForm="ngForm">
+    <div class="card">
+      <div class="card-header">
+        <h2>Create Payment
+          <span class="float-end">Invoice: {{invoice?.invoice_number}}</span>
+        </h2>
+      </div>
+
+      <div class="card-body">
+        <div class="row">
+
+          <!-- Payment Date -->
+          <div class="col-md-6 col-sm-12">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label for="payment_date">Payment Date</mat-label>
+              <input type="text" matInput name="payment_date" [matDatepicker]="payment_date_picker" ngModel required>
+              <mat-datepicker-toggle matIconSuffix [for]="payment_date_picker"></mat-datepicker-toggle>
+              <mat-datepicker #payment_date_picker></mat-datepicker>
+              <mat-error *ngIf="CreateForm?.controls?.['payment_date']?.invalid && CreateForm?.controls?.['payment_date']?.touched">
+                <ng-container *ngIf="CreateForm?.controls?.['payment_date']?.errors?.['required']">
+                  Payment date required.
+                </ng-container>
+              </mat-error>
+            </mat-form-field>
+            <mat-error *ngIf="errors && errors?.payment_date">{{errors?.payment_date}}</mat-error>
+          </div>
+
+          <!-- Amount Paid -->
+          <div class="col-md-6 col-sm-12">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label for="">Amount Paid</mat-label>
+              <input matInput type="number" name="amount_paid" ngModel required max="{{invoice?.remaining}}" min="0.01">
+              <mat-error *ngIf="CreateForm?.controls?.['amount_paid']?.errors?.['max']">Paid Amount must be less than from remaining amount i.e {{invoice?.remaining}}.</mat-error>
+              <mat-error *ngIf="CreateForm?.controls?.['amount_paid']?.errors?.['required']">Paid Amount is required.</mat-error>
+              <mat-error *ngIf="CreateForm?.controls?.['amount_paid']?.errors?.['min']">Paid Amount must be greater than Zero (0).</mat-error>
+            </mat-form-field>
+            <mat-error *ngIf="errors && errors?.amount_paid">{{errors?.amount_paid}}</mat-error>
+          </div>
+
+          <!-- Payment Method -->
+          <div class="col-md-6 col-sm-12">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label for="">Payment Method</mat-label>
+              <mat-select matInput name="payment_method" ngModel required>
+                <mat-option value="Cash">Cash</mat-option>
+                <mat-option value="Cheque">Cheque</mat-option>
+                <mat-option value="Bank Transfer">Bank Transfer</mat-option>
+                <mat-option value="Credit Card">Credit Card</mat-option>
+              </mat-select>
+              <mat-error *ngIf="CreateForm?.controls?.['payment_method']?.errors?.['required']">Payment Method is required.</mat-error>
+            </mat-form-field>
+            <mat-error *ngIf="errors && errors?.payment_method">{{errors?.payment_method}}</mat-error>
+          </div>
+
+           <!-- Transaction Number -->
+           <div class="col-md-6 col-sm-12">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label for="">Transaction Number</mat-label>
+              <input matInput type="text" name="transaction_no" ngModel>
+            </mat-form-field>
+            <mat-error *ngIf="errors && errors?.transaction_no">{{errors?.transaction_no}}</mat-error>
+          </div>
+
+          <!-- Notes -->
+          <div class="col-md-12 col-sm-12">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label for="">Notes</mat-label>
+              <textarea matInput name="notes" ngModel></textarea>
+            </mat-form-field>
+            <mat-error *ngIf="errors && errors?.notes">{{errors?.notes}}</mat-error>
+          </div>
+
+
+        </div>
+
+        <div class="col-md-12">
+          <!-- Display success message -->
+          <p *ngIf="successMessage" class="success-message text-center">{{ successMessage }}</p>
+
+          <!-- Display error message -->
+          <p *ngIf="errorMessage" class="error-message text-center ">{{ errorMessage }}</p>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <div class="col-md-12">
+          <button mat-button color="primary" class="" [routerLink]="['/dashboard','invoices','payments',invoice_id]" type="button">
+            Back to list
+          </button>
+          <button mat-flat-button color="primary" class="float-end" [disabled]="requesting || !CreateForm.valid"
+            type="submit">
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

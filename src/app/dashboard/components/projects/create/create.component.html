@@ -1,0 +1,108 @@
+<div class="container-fluid pt-3">
+  <div class="row">
+    <div class="col-md-6">
+      <h1>Project</h1>
+    </div>
+    <div class="col-md-6">
+    </div>
+  </div>
+
+  <form (submit)="create()" #CreateForm="ngForm">
+    <div class="card">
+      <div class="card-header">
+        <h2>Create Project</h2>
+      </div>
+
+      <div class="card-body">
+        <div class="row">
+          <!-- Name -->
+          <div class="col-md-6 col-sm-12">
+            <mat-form-field  class="w-100" appearance="outline">
+              <mat-label for="" >Name</mat-label>
+              <input matInput type="text" name="name" ngModel required>
+            </mat-form-field>
+            <mat-error *ngIf="errors && errors?.name">{{errors?.name}}</mat-error>
+          </div>
+
+          <!-- Customer -->
+          <div class="col-md-6 col-sm-12">
+            <mat-form-field  class="w-100" appearance="outline">
+              <mat-label for="" >Customer</mat-label>
+              <mat-select required  name="customer_id" ngModel required="">
+                <mat-option *ngFor="let customer of customers" [value]="customer.id">{{customer.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-error *ngIf="errors && errors?.customer_id">{{errors?.customer_id}}</mat-error>
+          </div>
+
+           <!-- Start Date -->
+           <div class="col-md-6 col-sm-12">
+            <mat-form-field  class="w-100" appearance="outline">
+              <mat-label for="start_date" >Start Date</mat-label>
+              <input type="text" matInput name="start_date"  [matDatepicker]="start_date_picker" ngModel [max]="endDate.value"  #startDate="ngModel">
+              <mat-datepicker-toggle matIconSuffix [for]="start_date_picker"></mat-datepicker-toggle>
+              <mat-datepicker #start_date_picker></mat-datepicker>
+            </mat-form-field>
+            <mat-error *ngIf="errors && errors?.start_date">{{errors?.start_date}}</mat-error>
+            <p *ngIf="startDate.errors?.['min'] || startDate.errors?.['max']" class="error-message">
+              Start date must be between the current date and end date.
+            </p>
+          </div>
+
+           <!-- End Date -->
+           <div class="col-md-6 col-sm-12">
+            <mat-form-field  class="w-100" appearance="outline">
+              <mat-label for="" >End Date</mat-label>
+              <input type="text" matInput name="end_date"  [matDatepicker]="end_date_picker" ngModel  [min]="startDate.value" #endDate="ngModel" >
+              <mat-datepicker-toggle matIconSuffix [for]="end_date_picker"></mat-datepicker-toggle>
+              <mat-datepicker #end_date_picker></mat-datepicker>
+            </mat-form-field>
+            <mat-error *ngIf="errors && errors?.end_date">{{errors?.end_date}}</mat-error>
+            <p *ngIf="endDate.errors?.['min']" class="error-message">End date must be after the start date.</p>
+          </div>
+
+          <!-- Customer -->
+          <div class="col-md-6 col-sm-12">
+            <mat-form-field  class="w-100" appearance="outline">
+              <mat-label for="" >Status</mat-label>
+              <mat-select [ngModel]="'ongoing'" name="status" ngModel required="">
+                <mat-option [value]="'ongoing'">Ongoing</mat-option>
+                <mat-option [value]="'hold'">Hold</mat-option>
+                <mat-option [value]="'completed'">Completed</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-error *ngIf="errors && errors?.status">{{errors?.status}}</mat-error>
+          </div>
+
+          <!-- Description -->
+          <div class="col-md-12 col-sm-12">
+            <mat-form-field  class="w-100" appearance="outline">
+              <mat-label for="" >Description</mat-label>
+              <textarea matInput name="description" ngModel></textarea>
+            </mat-form-field>
+            <mat-error *ngIf="errors && errors?.description">{{errors?.description}}</mat-error>
+          </div>
+
+
+
+        </div>
+        <div class="col-md-12">
+          <!-- Display success message -->
+         <p *ngIf="successMessage" class="success-message text-center">{{ successMessage }}</p>
+
+         <!-- Display error message -->
+         <p *ngIf="errorMessage" class="error-message text-center ">{{ errorMessage }}</p>
+
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <div class="col-md-12">
+          <button mat-button color="primary" class=""  [routerLink]="['/dashboard','projects']"  type="button"> Back to list</button>
+          <button mat-flat-button color="primary" class="float-end" [disabled]="requesting || !CreateForm.valid" type="submit"> Save</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+</div>

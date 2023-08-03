@@ -1,0 +1,50 @@
+<div class="container-fluid pt-3">
+  <div class="row">
+    <div class="col-md-6">
+      <h1>{{invoice?.project?.name + ' - ' + invoice?.invoice_number + ' -'  }} Payments - List</h1>
+    </div>
+    <div class="col-md-6">
+      <div class="float-end">
+        <button *ngIf="can('payment-create')" mat-stroked-button color="primary" [routerLink]="['/dashboard','invoices','payments',  invoice?.id , 'create']"  >
+          <mat-icon>add</mat-icon>
+          Add Payment
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Date</th>
+          <th>Method</th>
+          <th>Trx No</th>
+          <th>notes</th>
+          <th>Created</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let payment of payments;let i = index;">
+          <td>{{ i+1  }}</td>
+          <td>{{ payment.payment_date  | date:'mediumDate' }}</td>
+          <td>{{ payment?.payment_method | titlecase }}</td>
+          <td>{{ payment?.transaction_no }}</td>
+          <td>{{ payment?.notes | titlecase }}</td>
+          <td>{{ payment?.created_at | date:'mediumDate' }}</td>
+          <td>
+            <button *ngIf="can('payment-edit')" class="" [style.width]="'35px'" [style.height]="'30px'" [style.padding]="'6px'" [routerLink]="['/dashboard','invoices','payments', invoice?.id , 'edit',payment.id]" title="Edit" mat-icon-button>
+              <mat-icon class="h6">edit</mat-icon>
+            </button>
+            <button *ngIf="can('payment-delete')" class="" [style.width]="'35px'" [color]="'warn'" [style.height]="'30px'" [style.padding]="'6px'" (click)="openDeleteConfirmationDialog(payment.id)" title="Delete" mat-icon-button>
+              <mat-icon class="h6">delete</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

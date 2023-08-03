@@ -1,0 +1,50 @@
+<div class="container-fluid pt-3">
+  <div class="row">
+    <div class="col-md-6">
+      <h1>Project - List</h1>
+    </div>
+    <div class="col-md-6">
+      <div class="float-end">
+        <button *ngIf="can('project-create')" mat-stroked-button color="primary" [routerLink]="['/dashboard','projects','create']"  >
+          <mat-icon>add</mat-icon>
+          Add Project
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Customer</th>
+          <th>Start</th>
+          <th>End</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let project of projects;let i = index;">
+          <td>{{ i+1  }}</td>
+          <td>{{ project.name }}</td>
+          <td>{{ project?.customer?.name }}</td>
+          <td>{{ project?.start_date | date:'mediumDate' }}</td>
+          <td>{{ project?.end_date | date:'mediumDate' }}</td>
+          <td>{{ project?.status | titlecase }}</td>
+          <td>
+            <button *ngIf="can('project-edit')" class="" [style.width]="'35px'" [style.height]="'30px'" [style.padding]="'6px'" [routerLink]="['/dashboard','projects', 'edit',project.id]" title="Edit" mat-icon-button>
+              <mat-icon class="h6">edit</mat-icon>
+            </button>
+            <button *ngIf="can('project-delete')" class="" [style.width]="'35px'" [color]="'warn'" [style.height]="'30px'" [style.padding]="'6px'" (click)="openDeleteConfirmationDialog(project.id)" title="Delete" mat-icon-button>
+              <mat-icon class="h6">delete</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
